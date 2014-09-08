@@ -42,7 +42,7 @@ class PWM
     sleep(0.005)           # wait for oscillator
   end
 
-  def setPWMFreq(freq)
+  def set_pwm_freq(freq)
     prescaleval = 25000000.0    # 25MHz
     prescaleval /= 4096.0       # 12-bit
     prescaleval /= Float(freq)
@@ -64,18 +64,21 @@ class PWM
     sleep(0.005)
     @i2c.write(@address, MODE1, oldmode | RESTART)
   end
+  alias_method :setPWMFreq, :set_pwm_freq
 
-  def setPWM(channel, on, off)
+  def set_pwm(channel, on, off)
     @i2c.write(@address, LED0_ON_L+4*channel, on & 0xFF)
     @i2c.write(@address, LED0_ON_H+4*channel, on >> 8)
     @i2c.write(@address, LED0_OFF_L+4*channel, off & 0xFF)
     @i2c.write(@address, LED0_OFF_H+4*channel, off >> 8)
   end
+  alias_method :setPWM, :set_pwm
 
-  def setAllPWM(on, off)
+  def set_all_pwm(on, off)
     @i2c.write(@address, ALL_LED_ON_L, on & 0xFF)
     @i2c.write(@address, ALL_LED_ON_H, on >> 8)
     @i2c.write(@address, ALL_LED_OFF_L, off & 0xFF)
     @i2c.write(@address, ALL_LED_OFF_H, off >> 8)
   end
+  alias_method :setAllPWM, :set_all_pwm
 end
