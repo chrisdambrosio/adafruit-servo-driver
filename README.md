@@ -17,14 +17,14 @@ gem install adafruit-servo-driver
 require 'adafruit-servo-driver'
 
 pwm = PWM.new(0x40, true)
-pwm.setPWMFreq(50)
+pwm.set_pwm_freq(50)
 
 channel = 0
 
 3.times do
-  pwm.setPWM(channel, 0, 212)
+  pwm.set_pwm(channel, 0, 212)
   sleep(0.5)
-  pwm.setPWM(channel, 0, 412)
+  pwm.set_pwm(channel, 0, 412)
   sleep(0.5)
 end
 ```
