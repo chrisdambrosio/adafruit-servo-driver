@@ -1,4 +1,5 @@
 require 'i2c/i2c'
+include AdafruitServoDriver
 
 class PWM
   # Registers
@@ -25,9 +26,8 @@ class PWM
   OUTDRV             = 0x04
 
   def initialize(address=0x40, debug=false)
-    # TODO detect pi revision
     @address = address
-    @i2c = I2C.create('/dev/i2c-1')
+    @i2c = I2C.create(I2CDevice.detect)
     @debug = debug
     puts 'Reseting PCA9685 MODE1 (without SLEEP) and MODE2' if @debug
     setAllPWM(0, 0)
