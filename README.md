@@ -1,5 +1,7 @@
 ## Adafruit Servo Driver ##
 
+[![CodeClimate](https://codeclimate.com/github/chrisdambrosio/adafruit-servo-driver/badges/gpa.svg)](https://codeclimate.com/github/chrisdambrosio/adafruit-servo-driver)
+
 ### Description ###
 
 A Ruby implementation of Adafruit's Python library for the Adafruit PCA9685 16-Channel
