@@ -43,15 +43,11 @@ class PWM
   end
 
   def set_pwm_freq(freq)
-    prescaleval = 25000000.0    # 25MHz
-    prescaleval /= 4096.0       # 12-bit
-    prescaleval /= Float(freq)
-    prescaleval -= 1.0
     if @debug
       puts "Setting PWM frequency to #{freq} Hz"
-      puts "Estimated pre-scale: #{prescaleval}"
+      puts "Estimated pre-scale: #{prescale_val}"
     end
-    prescale = (prescaleval + 0.5).floor
+    prescale = (prescale_val + 0.5).floor
     if @debug
       puts "Final pre-scale: #{prescale}"
     end
@@ -81,4 +77,17 @@ class PWM
     @i2c.write(@address, ALL_LED_OFF_H, off >> 8)
   end
   alias_method :setAllPWM, :set_all_pwm
+
+  private
+
+  def prescale_val
+    @prescale_val ||= calculate_prescale_val
+  end
+
+  def calculate_prescale_val
+    prescaleval = 25000000.0    # 25MHz
+    prescaleval /= 4096.0       # 12-bit
+    prescaleval /= Float(freq)
+    prescaleval -= 1.0
+  end
 end
