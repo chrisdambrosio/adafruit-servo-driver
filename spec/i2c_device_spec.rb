@@ -23,6 +23,11 @@ describe I2CDevice do
   end
 
   context 'an unknown device' do
+    before do
+      allow(File).to receive('exist?').with('/dev/i2c-0').and_return false
+      allow(File).to receive('exist?').with('/dev/i2c-1').and_return false
+    end
+
     it 'raises a DeviceNotFoundError' do
       expect{I2CDevice.detect}.to raise_error DeviceNotFoundError
     end
