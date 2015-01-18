@@ -1,4 +1,5 @@
 require 'i2c/i2c'
+require 'logger'
 include AdafruitServoDriver
 
 class PWM
@@ -25,11 +26,16 @@ class PWM
   INVRT              = 0x10
   OUTDRV             = 0x04
 
+  attr_writer :logger
+
   def initialize(address=0x40, debug=false)
+    logger.level = Logger::DEBUG if debug
+
     @address = address
     @i2c = I2C.create(I2CDevice.detect)
-    @debug = debug
-    puts 'Reseting PCA9685 MODE1 (without SLEEP) and MODE2' if @debug
+
+    logger.debug 'Reseting PCA9685 MODE1 (without SLEEP) and MODE2'
+
     setAllPWM(0, 0)
     @i2c.write(@address, MODE2, OUTDRV)
     @i2c.write(@address, MODE1, ALLCALL)
@@ -43,14 +49,12 @@ class PWM
   end
 
   def set_pwm_freq(freq)
-    if @debug
-      puts "Setting PWM frequency to #{freq} Hz"
-      puts "Estimated pre-scale: #{prescale_val}"
-    end
+    logger.debug "Setting PWM frequency to #{freq} Hz"
+    logger.debug "Estimated pre-scale: #{prescale_val}"
+
     prescale = (prescale_val + 0.5).floor
-    if @debug
-      puts "Final pre-scale: #{prescale}"
-    end
+
+    logger.debug "Final pre-scale: #{prescale}"
 
     oldmode = @i2c.read(@address, 8, MODE1).unpack('C').first
     newmode = (oldmode & 0x7F) | 0x10    # sleep
@@ -79,6 +83,10 @@ class PWM
   alias_method :setAllPWM, :set_all_pwm
 
   private
+
+  def logger
+    @logger ||= Logger.new(STDOUT)
+  end
 
   def prescale_val
     @prescale_val ||= calculate_prescale_val
