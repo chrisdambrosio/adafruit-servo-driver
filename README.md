@@ -37,7 +37,10 @@ Product Page:
 http://www.adafruit.com/products/815
 
 Original Adafruit Python Adafruit_PWM_Servo_Driver Library:
-https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code
+https://github.com/adafruit/Adafruit-Raspberry-Pi-Python-Code/tree/master/Adafruit_PWM_Servo_Driver
 
 Tutorial: Adafruit 16 Channel Servo Driver with Raspberry Pi
 http://learn.adafruit.com/adafruit-16-channel-servo-driver-with-raspberry-pi
+
+Inspiration for usage example:
+http://www.raspberrypi.org/phpBB3/viewtopic.php?t=32826
