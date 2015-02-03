@@ -26,8 +26,6 @@ class PWM
   INVRT              = 0x10
   OUTDRV             = 0x04
 
-  attr_writer :logger
-
   def initialize(address=0x40, debug=false)
     logger.level = Logger::DEBUG if debug
 
@@ -85,7 +83,7 @@ class PWM
   private
 
   def logger
-    @logger ||= Logger.new(STDOUT)
+    @@logger ||= Logger.new(STDOUT)
   end
 
   def prescale_val
